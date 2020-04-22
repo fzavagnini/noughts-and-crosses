@@ -11,12 +11,15 @@ namespace noughts_and_crosses_tests
     public class TicTacToeTests
     {
         private ITicTacToeService _ticTacToeService;
+        private ITicTacToeRandomService _ticTacToeRandomService;
+
         private const int _fixedNumberOfRowsAndColumns = 3;
         
         [SetUp]
         public void Setup()
         {
             _ticTacToeService = new TicTacToeService();
+            _ticTacToeRandomService = new TicTacToeRandomService();
         }
 
         [TestCase(new int[] { 88, 88, 88, 4, 5, 6, 7, 8, 9 })] // Player 1 'X' Wins first row
@@ -292,6 +295,12 @@ namespace noughts_and_crosses_tests
             //Assert
             Assert.AreNotEqual(losingPlayer, winner);
 
+        }
+
+        [TestCase(new int[] {79, 88, 79, 88, 79, 88, 7, 8, 9})]
+        public void GenerateNextPossibleMove_ShouldReturn_RandomMove(int[] board)
+        {
+            var randomMove = _ticTacToeRandomService.GenerateNextPossibleMove(board, new bool[_fixedNumberOfRowsAndColumns]);
         }
     }
 }

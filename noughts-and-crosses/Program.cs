@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Design;
 using System.Linq;
+using System.Threading;
 using Microsoft.Extensions.DependencyInjection;
 using noughts_and_crosses.Services;
 
@@ -9,6 +10,7 @@ namespace noughts_and_crosses
     class Program
     {
         private static ITicTacToeService _ticTacToeService;
+        private static ITicTacToeRandomService _ticTacToeRandomService;
         private static int player = 1;
         private static int choice;
         
@@ -17,10 +19,12 @@ namespace noughts_and_crosses
             //Initialize Service Providers (Dependency Injection)
             var serviceProvider = new ServiceCollection()
                 .AddSingleton<ITicTacToeService, TicTacToeService>()
+                .AddSingleton<ITicTacToeRandomService, TicTacToeRandomService>()
                 .BuildServiceProvider();
 
             //Get instance of TicTacToeService to be used throughout (injectable)
             _ticTacToeService = serviceProvider.GetService<ITicTacToeService>();
+            _ticTacToeRandomService = serviceProvider.GetService<ITicTacToeRandomService>();
 
             //Initialize Noughts and Crosses
             InitializeTicTacToe(3);
@@ -58,13 +62,30 @@ namespace noughts_and_crosses
                 }
 
                 //Let user know which player is currently on turn
-                Console.WriteLine("Player 1: X and Player 2: O");
+                Console.WriteLine("Player 1: X and CPU: O");
                 Console.WriteLine("\n");
 
-                Console.WriteLine(player % 2 == 0 ? "Player 2 Chance" : "Player 1 Chance");
+                Console.WriteLine(player % 2 == 0 ? "CPU Chance" : "Player 1 Chance");
                 Console.WriteLine("\n");
 
-                var isValid = int.TryParse(Console.ReadLine(), out choice);
+                bool isValid;
+                
+                if (player % 2 == 0)
+                {
+                    Console.WriteLine("CPU is thinking...");
+                    Console.WriteLine();
+                    choice = _ticTacToeRandomService.GenerateNextPossibleMove(board);
+                    Thread.Sleep(2000);
+                    Console.WriteLine($"CPU has chosen {choice}...");
+                    Thread.Sleep(1000);
+                    Console.WriteLine();
+                    isValid = true;
+                }
+
+                else
+                {
+                    isValid = int.TryParse(Console.ReadLine(), out choice);
+                }
                 
                 //Check valid input, if not valid, print error message and indicate user to enter valid input as presented
                 if (!isValid | _ticTacToeService.CheckTicTacToeValidInput(choice, numberOfRowsAndColumns))
@@ -109,7 +130,7 @@ namespace noughts_and_crosses
             //Win condition found print winner
             if (_ticTacToeService.CheckTicTacToeBoardState(board, numberOfRowsAndColumns) == 1)
             {
-                Console.WriteLine(player % 2 == 0 ? "Player 1 Wins!!" : "Player 2 Wins!!");
+                Console.WriteLine(player % 2 == 0 ? "Player 1 Wins!!" : "CPU Wins!!");
                 Console.WriteLine();
 
                 _ticTacToeService.PrintCurrentTicTacToeBoard(board, numberOfRowsAndColumns);
