@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29926.136
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "noughts-and-crosses", "noughts-and-crosses\noughts-and-crosses.csproj", "{AE00AB1A-252D-46DA-A129-6F776CA6DD51}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "noughts-and-crosses-tests", "noughts-and-crosses-tests\noughts-and-crosses-tests.csproj", "{21CCA496-D8B8-4BFF-A014-34EC75884A99}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AE00AB1A-252D-46DA-A129-6F776CA6DD51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE00AB1A-252D-46DA-A129-6F776CA6DD51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE00AB1A-252D-46DA-A129-6F776CA6DD51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE00AB1A-252D-46DA-A129-6F776CA6DD51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21CCA496-D8B8-4BFF-A014-34EC75884A99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21CCA496-D8B8-4BFF-A014-34EC75884A99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21CCA496-D8B8-4BFF-A014-34EC75884A99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21CCA496-D8B8-4BFF-A014-34EC75884A99}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {503CB71B-D6EA-409C-B045-56DECA39EA2D}
+	EndGlobalSection
+EndGlobal
