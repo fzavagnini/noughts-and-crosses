@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Text;
 using noughts_and_crosses.Services;
 using NUnit.Framework;
 
@@ -236,7 +238,7 @@ namespace noughts_and_crosses_tests
             Assert.AreEqual(expectedAllCheckedPositions, allCheckedPositions);
         }
 
-        [TestCase(new int[] {88, 2, 3, 4, 88, 6, 7, 8, 88}, 88)] // Player 1 Wins
+        [TestCase(new int[] {1, 2, 3, 4, 5, 6, 88, 88, 88}, 88)] // Player 1 Wins
         [TestCase(new int[] {1, 2, 79, 4, 79, 6, 79, 8, 9}, 79)] // Player 2 Wins
         public void WinCondition_ShouldReturn_CorrectWinningPlayer(int[] winningNumbers, int player)
         {
@@ -251,8 +253,14 @@ namespace noughts_and_crosses_tests
             var winningLine = _ticTacToeService.CheckTicTacToeWinningLine(ticTacToeDataStructure);
 
             //88 is Player 1 ------ 79 is Player 2
-            var winner = winningLine.FirstOrDefault();
-            
+            var winner = winningLine.Item1.FirstOrDefault();
+            var winnerLine = winningLine.Item1.Aggregate(new StringBuilder(),
+                    (current, next) => current.Append(current.Length == 0 ? "" : ", ").Append(next))
+                .ToString();
+            var positionNumber = winningLine.Item2.Item1;
+            var position = winningLine.Item2.Item2;
+
+            Debug.WriteLine($"The winning line is {winnerLine} at {position} {positionNumber}");
             //Assert
             Assert.AreEqual(winningPlayer, winner);
 
@@ -273,13 +281,17 @@ namespace noughts_and_crosses_tests
             var winningLine = _ticTacToeService.CheckTicTacToeWinningLine(ticTacToeDataStructure);
 
             //88 is Player 1 ------ 79 is Player 2
-            var winner = winningLine.FirstOrDefault();
+            var winner = winningLine.Item1.FirstOrDefault();
+            var winnerLine = winningLine.Item1.Aggregate(new StringBuilder(),
+                    (current, next) => current.Append(current.Length == 0 ? "" : ", ").Append(next))
+                .ToString();
+            var positionNumber = winningLine.Item2.Item1;
+            var position = winningLine.Item2.Item2;
 
+            Debug.WriteLine($"The winning line is {winnerLine} at {position} {positionNumber}");
             //Assert
             Assert.AreNotEqual(losingPlayer, winner);
 
         }
     }
-
-
 }

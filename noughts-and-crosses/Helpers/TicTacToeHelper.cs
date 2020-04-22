@@ -7,7 +7,7 @@ namespace noughts_and_crosses.Helpers
     {
         //https://stackoverflow.com/questions/10297124/how-to-combine-more-than-two-generic-lists-in-c-sharp-zip
         public static IEnumerable<TResult> ZipThree<T1, T2, T3, TResult>(
-            this IEnumerable<T1> source,
+            IEnumerable<T1> source,
             IEnumerable<T2> second,
             IEnumerable<T3> third,
             Func<T1, T2, T3, TResult> func)

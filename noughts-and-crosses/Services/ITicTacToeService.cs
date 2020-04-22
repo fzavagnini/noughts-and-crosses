@@ -11,7 +11,7 @@ namespace noughts_and_crosses.Services
         void PrintCurrentTicTacToeBoard(int[] board, int numberOfRowsAndColumns);
         bool CheckTicTacToeValidInput(int input, int numberOfRowsAndColumns);
         void PrintTicTacToeInvalidInputMessage(int[] board, int numberOfRowsAndColumns);
-        List<int> CheckTicTacToeWinningLine(Tuple<List<List<int>>, List<List<int>>, List<List<int>>> allBoardPossibilities);
+        Tuple<List<int>, Tuple<int, string>> CheckTicTacToeWinningLine(Tuple<List<List<int>>, List<List<int>>, List<List<int>>> allBoardPossibilities);
         Tuple<List<List<int>>, List<List<int>>, List<List<int>>> ProcessTicTacToeLines(int[,] ticTacToeProperBoard, int[] ticTacToeBoard, int numberOfRowsAndColumns);
     }
 }

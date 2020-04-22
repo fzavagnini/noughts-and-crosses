@@ -19,33 +19,53 @@ namespace noughts_and_crosses.Services
             return board;
         }
 
-        public List<int> CheckTicTacToeWinningLine(Tuple<List<List<int>>, List<List<int>>, List<List<int>>> allBoardPossibilities)
+        public Tuple<List<int>, Tuple<int, string>>  CheckTicTacToeWinningLine(Tuple<List<List<int>>, List<List<int>>, List<List<int>>> allBoardPossibilities)
         {
             List<int> winningLine = new List<int>();
 
-            var ticTacToeLines = allBoardPossibilities.Item1.ZipThree(allBoardPossibilities.Item2,
-                allBoardPossibilities.Item3,
-                (rows, columns, diagonals) => new { rows, columns, diagonals }).ToList();
+            //var ticTacToeLines = TicTacToeHelper.ZipThree(allBoardPossibilities.Item1, allBoardPossibilities.Item2,
+            //    allBoardPossibilities.Item3,
+            //    (rows, columns, diagonals) => new { rows, columns, diagonals });
 
-            //There can only exist one winning line
-            foreach (var ticTacToeLine in ticTacToeLines)
+            //This builds a data structure that could contain all possible lines - TODO Requires more testing
+            // ----------------------------------------------
+            // 1)   1 2 3                2)   - 2 3
+            //      4 5 -      <====>         4 5 6
+            //      7 - 9                     7 8 -
+            // ----------------------------------------------
+            
+            var (rows, columns, diagonals) = allBoardPossibilities;
+            Tuple<int, string> winningPosition = new Tuple<int, string>(0, "");
+            int count = 1;
+
+            for (int i = 0; i < rows.Count; i++)
             {
-                if (ticTacToeLine.rows.Distinct().Count() == 1)
+                if (rows[i].Distinct().Count() == 1)
                 {
-                    winningLine = ticTacToeLine.rows;
+                    winningLine = rows[i];
+                    winningPosition = new Tuple<int, string>(i + 1, "Row");
                 }
-                if (ticTacToeLine.columns.Distinct().Count() == 1)
-                {
-                    winningLine = ticTacToeLine.columns;
-                }
-                if (ticTacToeLine.diagonals.Distinct().Count() == 1)
-                {
-                    winningLine = ticTacToeLine.diagonals;
-                }
-                
             }
 
-            return winningLine;
+            for (int i = 0; i < columns.Count; i++)
+            {
+                if (columns[i].Distinct().Count() == 1)
+                {
+                    winningLine = columns[i];
+                    winningPosition = new Tuple<int, string>(i + 1, "Column");
+                }
+            }
+
+            for (int i = 0; i < diagonals.Count; i++)
+            {
+                if (diagonals[i].Distinct().Count() == 1)
+                {
+                    winningLine = diagonals[i];
+                    winningPosition = new Tuple<int, string>(i + 1, "Diagonal");
+                }
+            }
+
+            return new Tuple<List<int>, Tuple<int, string>>(winningLine, winningPosition);
         }
 
         public Tuple<List<List<int>>, List<List<int>>, List<List<int>>> ProcessTicTacToeLines(int[,] ticTacToeProperBoard, int[] ticTacToeBoard,
