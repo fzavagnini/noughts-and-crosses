@@ -36,7 +36,7 @@ namespace noughts_and_crosses_tests
             // ---------------------------------------------
             //                  TEST CASE 1
 
-            // 1 2 3      ====>     O O O     ====>     Win
+            // 1 2 3      ====>     X X X     ====>     Win
             // 4 5 6                - - -
             // 7 8 9                - - -
 
@@ -44,7 +44,7 @@ namespace noughts_and_crosses_tests
             //                  TEST CASE 2
 
             // 1 2 3                - - -     
-            // 4 5 6      ====>     O O O     ====>     Win
+            // 4 5 6      ====>     X X X     ====>     Win
             // 7 8 9                - - -
 
             // ---------------------------------------------
@@ -52,12 +52,12 @@ namespace noughts_and_crosses_tests
 
             // 1 2 3                - - -     
             // 4 5 6      ====>     - - -     
-            // 7 8 9                O O O     ====>     Win
+            // 7 8 9                X X X     ====>     Win
 
             // ---------------------------------------------
             //                  TEST CASE 4
 
-            // 1 2 3      ====>     X X X     ====>     Win
+            // 1 2 3      ====>     O O O     ====>     Win
             // 4 5 6                - - -
             // 7 8 9                - - -
 
@@ -65,7 +65,7 @@ namespace noughts_and_crosses_tests
             //                  TEST CASE 5
 
             // 1 2 3                - - -     
-            // 4 5 6      ====>     X X X     ====>     Win
+            // 4 5 6      ====>     O O O     ====>     Win
             // 7 8 9                - - -
 
             // ---------------------------------------------
@@ -73,7 +73,7 @@ namespace noughts_and_crosses_tests
 
             // 1 2 3                - - -     
             // 4 5 6      ====>     - - -     
-            // 7 8 9                X X X     ====>     Win
+            // 7 8 9                O O O     ====>     Win
 
             // ---------------------------------------------
             var boardState = _ticTacToeService.CheckTicTacToeBoardState(rowWinningNumbers, _fixedNumberOfRowsAndColumns);
@@ -280,4 +280,6 @@ namespace noughts_and_crosses_tests
 
         }
     }
+
+
 }
