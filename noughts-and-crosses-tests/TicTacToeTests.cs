@@ -19,7 +19,7 @@ namespace noughts_and_crosses_tests
         public void Setup()
         {
             _ticTacToeService = new TicTacToeService();
-            _ticTacToeRandomService = new TicTacToeRandomService();
+            _ticTacToeRandomService = new TicTacToeRandomService(_ticTacToeService);
         }
 
         [TestCase(new int[] { 88, 88, 88, 4, 5, 6, 7, 8, 9 })] // Player 1 'X' Wins first row
@@ -315,6 +315,19 @@ namespace noughts_and_crosses_tests
             var expectedValue = 0;
             //Act
             var randomMove = _ticTacToeRandomService.GenerateNextPossibleMove(board);
+            //Assert
+            Assert.AreEqual(expectedValue, randomMove);
+        }
+
+        [TestCase(new int[] { 88, 88, 3, 4, 5, 6, 7, 8, 9 }, false, 3)]
+        [TestCase(new int[] { 79, 79, 3, 4, 5, 6, 7, 8, 9 }, false, 3)]
+        [TestCase(new int[] { 88, 79, 3, 4, 88, 6, 7, 8, 9 }, true, 9)]
+        public void GenerateNextBestPossibleMove_ShouldReturnBestPossibleMove(int[] board, bool isDiagonal, int nextPossibleMove)
+        {
+            //Arrange
+            var expectedValue = nextPossibleMove;
+            //Act
+            var randomMove = _ticTacToeRandomService.GenerateNextBestPossibleMove(board, _fixedNumberOfRowsAndColumns, isDiagonal);
             //Assert
             Assert.AreEqual(expectedValue, randomMove);
         }

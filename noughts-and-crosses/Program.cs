@@ -74,7 +74,7 @@ namespace noughts_and_crosses
                 {
                     Console.WriteLine("CPU is thinking...");
                     Console.WriteLine();
-                    choice = _ticTacToeRandomService.GenerateNextPossibleMove(board);
+                    choice = _ticTacToeRandomService.GenerateNextBestPossibleMove(board, numberOfRowsAndColumns);
                     Thread.Sleep(2000);
                     Console.WriteLine($"CPU has chosen {choice}...");
                     Thread.Sleep(1000);
