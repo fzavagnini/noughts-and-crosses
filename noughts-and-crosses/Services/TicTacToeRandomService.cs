@@ -93,6 +93,11 @@ namespace noughts_and_crosses.Services
 
                 var nextPossibleMoveList = listOfList[i];
                 bestPossibleMove = nextPossibleMoveList.FirstOrDefault(x => x != 88 && x != 79);
+
+                if (bestPossibleMove != 0)
+                {
+                    return bestPossibleMove;
+                }
             }
 
             return bestPossibleMove;
