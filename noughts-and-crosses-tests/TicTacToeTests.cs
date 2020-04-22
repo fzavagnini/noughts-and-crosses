@@ -297,10 +297,27 @@ namespace noughts_and_crosses_tests
 
         }
 
-        [TestCase(new int[] {79, 88, 79, 88, 79, 88, 7, 8, 9})]
+        [TestCase(new int[] {79, 2, 79, 4, 79, 6, 79, 88, 79})]
         public void GenerateNextPossibleMove_ShouldReturn_RandomMove(int[] board)
         {
-            var randomMove = _ticTacToeRandomService.GenerateNextPossibleMove(board, new bool[_fixedNumberOfRowsAndColumns]);
+            //Arrange
+            var expectedValue = 0;
+            //Act
+            var randomMove = _ticTacToeRandomService.GenerateNextPossibleMove(board);
+            //Assert
+            Assert.AreNotEqual(expectedValue, randomMove);
         }
+
+        [TestCase(new int[] { 79, 88, 79, 88, 79, 88, 79, 88, 79 })]
+        public void GenerateNextPossibleMove_OnAllCheckedBoard_ShouldReturnZero(int[] board)
+        {
+            //Arrange
+            var expectedValue = 0;
+            //Act
+            var randomMove = _ticTacToeRandomService.GenerateNextPossibleMove(board);
+            //Assert
+            Assert.AreEqual(expectedValue, randomMove);
+        }
+
     }
 }

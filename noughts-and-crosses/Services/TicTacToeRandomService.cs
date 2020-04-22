@@ -20,6 +20,11 @@ namespace noughts_and_crosses.Services
 
             var lengthOfPossibleMoves = allPositionsChecked.Count(x => !x);
 
+            if (lengthOfPossibleMoves == 0)
+            {
+                return 0;
+            }
+
             _nextMove = board[_random.Next(board.Length)];
 
             if (lengthOfPossibleMoves != 0 && (_nextMove == 79 || _nextMove == 88))
@@ -32,8 +37,8 @@ namespace noughts_and_crosses.Services
                 return _nextMove;
 
             }
-            
-            return (_nextMove != 79 || _nextMove != 88) ? _nextMove : 0;
+
+            return _nextMove;
         }
     }
 }
