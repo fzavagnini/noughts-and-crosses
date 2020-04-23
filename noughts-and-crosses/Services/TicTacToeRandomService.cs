@@ -140,7 +140,7 @@ namespace noughts_and_crosses.Services
                 return bestPossibleMove;
             }
 
-            if (bestPossibleMoves.Count > 1 && bestPossibleMoves.Any(x=>x.Contains(79)))
+            if (bestPossibleMoves.Count > 1 && bestPossibleMoves.Find(x => x.Contains(88)).Count == 2)
             {
                 bestPossibleMove = bestPossibleMoves.Find(x => x.Contains(79)).FirstOrDefault(x => x != 88 && x != 79);
             }

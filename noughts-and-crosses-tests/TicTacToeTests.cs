@@ -321,7 +321,7 @@ namespace noughts_and_crosses_tests
 
         //[TestCase(new int[] { 88, 88, 3, 4, 5, 6, 7, 8, 9 }, false, 3)]
         //[TestCase(new int[] { 79, 79, 3, 4, 5, 6, 7, 8, 9 }, false, 3)]
-        [TestCase(new int[] { 79, 79, 88, 79, 5, 88, 7, 8, 9 }, true, 7)]
+        [TestCase(new int[] { 88, 79, 88, 79, 88, 6, 7, 8, 9 }, true, 7)]
         public void GenerateNextBestPossibleMove_ShouldReturnBestPossibleMove(int[] board, bool isDiagonal, int nextPossibleMove)
         {
             //Arrange
