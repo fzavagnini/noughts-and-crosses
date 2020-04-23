@@ -308,7 +308,7 @@ namespace noughts_and_crosses_tests
             Assert.AreNotEqual(expectedValue, randomMove);
         }
 
-        [TestCase(new int[] { 79, 88, 79, 88, 79, 88, 79, 88, 79 })]
+        [TestCase(new int[] { 79, 79, 88, 79, 88, 79, 88, 79, 88 })]
         public void GenerateNextPossibleMove_OnAllCheckedBoard_ShouldReturnZero(int[] board)
         {
             //Arrange
@@ -321,13 +321,13 @@ namespace noughts_and_crosses_tests
 
         //[TestCase(new int[] { 88, 88, 3, 4, 5, 6, 7, 8, 9 }, false, 3)]
         //[TestCase(new int[] { 79, 79, 3, 4, 5, 6, 7, 8, 9 }, false, 3)]
-        [TestCase(new int[] { 88, 79, 88, 4, 88, 6, 79, 8, 9 }, true, 9)]
+        [TestCase(new int[] { 79, 79, 88, 79, 5, 88, 7, 8, 9 }, true, 7)]
         public void GenerateNextBestPossibleMove_ShouldReturnBestPossibleMove(int[] board, bool isDiagonal, int nextPossibleMove)
         {
             //Arrange
             var expectedValue = nextPossibleMove;
             //Act
-            var randomMove = _ticTacToeRandomService.GenerateNextBestPossibleMove(board, _fixedNumberOfRowsAndColumns, isDiagonal);
+            var randomMove = _ticTacToeRandomService.GenerateNextBestPossibleMove(board, _fixedNumberOfRowsAndColumns);
             //Assert
             Assert.AreEqual(expectedValue, randomMove);
         }

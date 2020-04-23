@@ -3,6 +3,6 @@
     public interface ITicTacToeRandomService
     {
         int GenerateNextPossibleMove(int[] board);
-        int GenerateNextBestPossibleMove(int[] board, int numberOfRowsAndColumns, bool isDiagonal = false);
+        int GenerateNextBestPossibleMove(int[] board, int numberOfRowsAndColumns);
     }
 }

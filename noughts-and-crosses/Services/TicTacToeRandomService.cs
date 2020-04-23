@@ -48,41 +48,74 @@ namespace noughts_and_crosses.Services
             return _nextMove;
         }
 
-        public int GenerateNextBestPossibleMove(int[] board, int numberOfRowsAndColumns, bool isDiagonal = false)
+        public Tuple<int, bool> CheckTicTacToeWinningCondition(int[] board, List<int> moves, int numberOfRowsAndColumns)
         {
-            int[,] ticTacProperBoard = new int[numberOfRowsAndColumns, numberOfRowsAndColumns];
-            int bestPossibleMove = 0;
             
-            var ticTacToeBoard = _ticTacToeService.ProcessTicTacToeLines(ticTacProperBoard, board, numberOfRowsAndColumns);
-
-            //Is there any line that contains more than numberOfRowsAndColumns - 1 checked positions
-            //If yes get the !position of numberOfRowsAndColumns - 1
-            
-            //Rows
-            bestPossibleMove =
-                GetBestPossibleMoveFromRowColumnDiagonal(ticTacToeBoard.Item1, numberOfRowsAndColumns);
-            //Columns
-            bestPossibleMove = bestPossibleMove == 0 ?
-                GetBestPossibleMoveFromRowColumnDiagonal(ticTacToeBoard.Item2, numberOfRowsAndColumns) : bestPossibleMove;
-            //Diagonals
-            bestPossibleMove = bestPossibleMove == 0 ?
-                GetBestPossibleMoveFromRowColumnDiagonal(ticTacToeBoard.Item3, numberOfRowsAndColumns, true) : bestPossibleMove;
-
-            if (bestPossibleMove == 0)
+            foreach (var move in moves.Where(x=> x!= 0))
             {
-                bestPossibleMove = GenerateNextPossibleMove(board);
+                var valuePlaced = board[move - 1];
+                board[move - 1] = move;
+
+                var winCondition = _ticTacToeService.CheckTicTacToeBoardState(board, numberOfRowsAndColumns);
+                
+                if (winCondition == 1)
+                {
+                    return new Tuple<int, bool>(move, true);
+                }
+
+                board[move - 1] = valuePlaced;
             }
 
-            return bestPossibleMove;
+            return null;
         }
 
-        private int GetBestPossibleMoveFromRowColumnDiagonal(List<List<int>> listOfList, int numberOfRowsAndColumns, bool isDiagonal = false)
+        public int GenerateNextBestPossibleMove(int[] board, int numberOfRowsAndColumns)
+        {
+            int[,] ticTacProperBoard = new int[numberOfRowsAndColumns, numberOfRowsAndColumns];
+            List<int> bestPossibleMoves = new List<int>();
+            Tuple<int, bool> winningCondition = null;
+            int bestRandomMove = 0;
+            int bestPossibleMoveRow = 0;
+            int bestPossibleMoveColumn = 0;
+            int bestPossibleMoveDiagonal = 0;
+
+            var ticTacToeBoard = _ticTacToeService.ProcessTicTacToeLines(ticTacProperBoard, board, numberOfRowsAndColumns);
+
+            //Rows
+            bestPossibleMoveRow = GetBestPossibleMoveFromRowColumnDiagonal(ticTacToeBoard.Item1, numberOfRowsAndColumns);
+            //Columns
+            bestPossibleMoveColumn = GetBestPossibleMoveFromRowColumnDiagonal(ticTacToeBoard.Item2, numberOfRowsAndColumns);
+            //Diagonals
+            bestPossibleMoveDiagonal = GetBestPossibleMoveFromRowColumnDiagonal(ticTacToeBoard.Item3, numberOfRowsAndColumns);
+
+            if (bestPossibleMoveRow == 0 && bestPossibleMoveColumn == 0 && bestPossibleMoveDiagonal == 0)
+            {
+                bestRandomMove = GenerateNextPossibleMove(board);
+                return bestRandomMove;
+            }
+
+            bestPossibleMoves.Add(bestPossibleMoveRow);
+            bestPossibleMoves.Add(bestPossibleMoveColumn);
+            bestPossibleMoves.Add(bestPossibleMoveDiagonal);
+
+            if (bestPossibleMoves.Count(x => x != 0) > 1)
+            {
+                winningCondition = CheckTicTacToeWinningCondition(board, bestPossibleMoves, numberOfRowsAndColumns);
+            }
+
+            return winningCondition == null 
+                ? bestPossibleMoves.FirstOrDefault(x => x != 0) 
+                : bestPossibleMoves.FirstOrDefault(x=> x == winningCondition?.Item1);
+        }
+
+        private int GetBestPossibleMoveFromRowColumnDiagonal(List<List<int>> listOfList, int numberOfRowsAndColumns, int player = 0)
         {
             int bestPossibleMove = 0;
+            List<List<int>> bestPossibleMoves = new List<List<int>>();
             for (int i = 0; i < listOfList.Count; i++)
             {
                 var duplicates = listOfList[i].GroupBy(x => x)
-                    .Where(g => !isDiagonal ? g.Count() > 1 && g.Count() < numberOfRowsAndColumns : g.Count() > 1 && g.Count() < numberOfRowsAndColumns + 1)
+                    .Where(g => g.Count() > 1 && g.Count() < numberOfRowsAndColumns)
                     .Select(y => y.Key)
                     .ToList();
 
@@ -91,13 +124,24 @@ namespace noughts_and_crosses.Services
                     continue;
                 }
 
-                var nextPossibleMoveList = listOfList[i];
-                bestPossibleMove = nextPossibleMoveList.FirstOrDefault(x => x != 88 && x != 79);
-
-                if (bestPossibleMove != 0)
+                if (duplicates.Count > 0)
                 {
-                    return bestPossibleMove;
+                    bestPossibleMoves.Add(listOfList[i]);
                 }
+                
+                var nextPossibleMoveList = listOfList[i];
+                
+                bestPossibleMove = nextPossibleMoveList.FirstOrDefault(x => x != 88 && x != 79);
+            }
+
+            if (bestPossibleMove != 0 && bestPossibleMoves.Count == 1)
+            {
+                return bestPossibleMove;
+            }
+
+            if (bestPossibleMoves.Count > 1)
+            {
+                bestPossibleMove = bestPossibleMoves.Find(x => x.Contains(79)).FirstOrDefault(x => x != 88 && x != 79);
             }
 
             return bestPossibleMove;
