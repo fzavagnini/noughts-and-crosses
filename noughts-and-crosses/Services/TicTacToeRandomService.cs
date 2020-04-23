@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 
 namespace noughts_and_crosses.Services
 {
@@ -139,7 +140,7 @@ namespace noughts_and_crosses.Services
                 return bestPossibleMove;
             }
 
-            if (bestPossibleMoves.Count > 1)
+            if (bestPossibleMoves.Count > 1 && bestPossibleMoves.Any(x=>x.Contains(79)))
             {
                 bestPossibleMove = bestPossibleMoves.Find(x => x.Contains(79)).FirstOrDefault(x => x != 88 && x != 79);
             }
